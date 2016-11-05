@@ -1,0 +1,29 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:batch="http://www.springframework.org/schema/batch"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch-2.0.xsd">
+
+    <bean id="itemReader" class="org.dorkmaster.scanner.agent.service.FileListItemReader">
+
+    </bean>
+
+    <bean id="hashWorker" class="org.dorkmaster.scanner.agent.service.impl.HashWorker">
+
+    </bean>
+
+    <bean id="indexWriter" class="org.dorkmaster.scanner.agent.service.impl.IndexWriter">
+
+    </bean>
+
+    <batch:job id="initialScanner" job-repository="jobRepository">
+        <batch:step id="initialScanner">
+            <batch:tasklet start-limit="5">
+                <batch:chunk reader="itemReader" processor="hashWorker" writer="indexWriter" commit-interval="5"/>
+            </batch:tasklet>
+        </batch:step>
+    </batch:job>
+
+
+</beans>
