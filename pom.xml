@@ -20,6 +20,7 @@
         <module>file-scanner-common</module>
         <module>rescan-file-scanner</module>
         <module>scanner-agent</module>
+        <module>discovery</module>
     </modules>
 
 
