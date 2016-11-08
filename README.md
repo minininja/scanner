@@ -9,4 +9,6 @@ an index in the elastic search instance.  The index name will be the same as you
 hostname but in lower case (weird limitation in elastic search). 
 
 Use the aggregate functionality in elastic search to find duplicates based on the computed 
-hash.  Will add notes on that later.
+hash.  Here's a sample query:
+
+{"size":0,"query":{"bool":{"must_not":[{"term":{"hashes.1024":"23a2386b26eb636afabaebb0c836adf4"}}]}},"aggs":{"duplicates":{"terms":{"field":"hashes.1024"}}}}
