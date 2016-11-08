@@ -14,6 +14,8 @@ import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -21,7 +23,7 @@ import java.util.UUID;
 
 public class SaveProcessor extends AbstractProcessor {
     private Client client = null;
-
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
     private String toIndexName(String name) {
         return name.toLowerCase();
     }
@@ -34,20 +36,19 @@ public class SaveProcessor extends AbstractProcessor {
                 Settings.instance().value("es.ports").asInts(",", new Integer[]{9300})
         );
 
-        System.out.println("Connected to " + client.admin().cluster().health(new ClusterHealthRequest()).actionGet().getClusterName());
+        logger.info("Connected to {}", client.admin().cluster().health(new ClusterHealthRequest()).actionGet().getClusterName());
     }
 
     @Override
-    public void process(Command cmd) {
+    public void doCmd(Command cmd) {
         SaveCmd saveCmd = (SaveCmd) cmd;
         try {
             initIndex(client, hostname());
             store(client, saveCmd);
         } catch (Exception e) {
-            System.out.println("***** unable to saveCmd *****");
-            System.out.println(saveCmd.getFile().getId() + " " + saveCmd.getFile().getFile().getAbsolutePath());
-            e.printStackTrace();
-            System.out.println("***** unable to saveCmd *****");
+            logger.warn("***** unable to saveCmd *****");
+            logger.warn("{} {}", new Object[]{saveCmd.getFile().getId(), saveCmd.getFile().getFile().getAbsolutePath()}, e);
+            logger.warn("***** unable to saveCmd *****");
         }
     }
 
@@ -84,6 +85,7 @@ public class SaveProcessor extends AbstractProcessor {
         try {
             return Settings.instance().value("host").asString(InetAddress.getLocalHost().getHostName()).toLowerCase();
         } catch (UnknownHostException e) {
+            // fallback
             return "localhost";
         }
     }

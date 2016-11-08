@@ -3,6 +3,8 @@ package org.dorkmaster.discovery;
 import com.google.common.eventbus.EventBus;
 import org.dorkmaster.discovery.event.BeaconEvent;
 import org.dorkmaster.discovery.mesg.Beacon;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -24,6 +26,8 @@ import java.util.UUID;
 public class Discovery {
     public static final int DISCOVERY_PORT = 5555;
     private static final int DELAY = 1 * 1000;
+
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private DatagramSocket socket;
     private UUID uuid = UUID.randomUUID();
@@ -50,14 +54,14 @@ public class Discovery {
                     }
                 }
 
-                System.out.println("send to ip: " + broadcastAddresss);
+                logger.trace("send to ip: {}", broadcastAddresss);
 
                 byte[] buffer;
                 while (true) {
-                    System.out.println("Sending beacon");
+                    logger.trace("Sending beacon");
                     buffer = Beacon.beacon(uuid,port);
                     for (InetAddress sendTo : broadcastAddresss) {
-                        System.out.println("  to " + sendTo);
+                        logger.trace("  to {}", sendTo);
                         socket.send(new DatagramPacket(buffer, Beacon.BEACON_LENGTH, sendTo, DISCOVERY_PORT));
                     }
                     Thread.sleep(DELAY);

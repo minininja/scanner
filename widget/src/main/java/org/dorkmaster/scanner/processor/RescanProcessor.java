@@ -11,7 +11,10 @@ public class RescanProcessor extends AbstractProcessor {
     }
 
     @Override
-    public void process(Command cmd) {
-
+    public void doCmd(Command cmd) {
+        // we should have a hash code, ask an updater for records associated with this
+        // agent and that hash code.  that should result in a list of files.  we'll
+        // spin through the files creating new hashes.  We'll then send updates to the
+        // updater to update elastic search.
     }
 }

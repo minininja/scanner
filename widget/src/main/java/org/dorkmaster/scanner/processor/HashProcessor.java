@@ -16,7 +16,7 @@ public class HashProcessor extends AbstractProcessor {
     }
 
     @Override
-    public void process(Command cmd) {
+    public void doCmd(Command cmd) {
         HashCmd dh = (HashCmd) cmd;
         FileInputStream in = null;
 

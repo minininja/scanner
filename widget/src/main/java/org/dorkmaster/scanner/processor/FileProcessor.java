@@ -13,7 +13,7 @@ public class FileProcessor extends AbstractProcessor  {
     }
 
     @Override
-    public void process(Command cmd) {
+    public void doCmd(Command cmd) {
         FileCmd sf = (FileCmd) cmd;
         for (Hash hash: sf.getHashes()) {
             cmdProcessor.process(new HashCmd().setFile(sf.getFile()).setHash(hash));

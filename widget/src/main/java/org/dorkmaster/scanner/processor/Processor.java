@@ -3,7 +3,7 @@ package org.dorkmaster.scanner.processor;
 import org.dorkmaster.scanner.command.Command;
 
 public interface Processor {
-    boolean canProcess(Command cmd);
+    boolean canProcess(Object cmd);
 
-    void process(Command cmd);
+    void process(Object cmd);
 }

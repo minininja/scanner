@@ -15,7 +15,7 @@ public class ScanProcessor extends AbstractProcessor {
         super(cmdProcessor, ScanCmd.class);
     }
 
-    public void process(Command cmd) {
+    public void doCmd(Command cmd) {
         ScanCmd grr = (ScanCmd) cmd;
         System.out.println("looking at " + grr.getPath());
 
