@@ -22,6 +22,10 @@ import java.util.UUID;
 public class SaveProcessor extends AbstractProcessor {
     private Client client = null;
 
+    private String toIndexName(String name) {
+        return name.toLowerCase();
+    }
+
     public SaveProcessor(CmdProcessor cmdProcessor) throws UnknownHostException {
         super(cmdProcessor, SaveCmd.class);
 
@@ -48,8 +52,8 @@ public class SaveProcessor extends AbstractProcessor {
     }
 
     private void initIndex(Client client, String indexName) {
-        if (!client.admin().indices().exists(new IndicesExistsRequest(indexName)).actionGet().isExists()) {
-            client.admin().indices().create(new CreateIndexRequest().index(indexName)).actionGet();
+        if (!client.admin().indices().exists(new IndicesExistsRequest(toIndexName(indexName))).actionGet().isExists()) {
+            client.admin().indices().create(new CreateIndexRequest().index(toIndexName(indexName))).actionGet();
         }
     }
 
@@ -78,7 +82,7 @@ public class SaveProcessor extends AbstractProcessor {
 
     private String hostname(){
         try {
-            return Settings.instance().value("host").asString(InetAddress.getLocalHost().getHostName());
+            return Settings.instance().value("host").asString(InetAddress.getLocalHost().getHostName()).toLowerCase();
         } catch (UnknownHostException e) {
             return "localhost";
         }
