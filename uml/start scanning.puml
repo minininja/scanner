@@ -1,0 +1,73 @@
+@startuml
+
+participant Network as net #D5D8DC
+participant EventBus as eb #7FB3D5
+participant Controller as c #A3E4D7
+participant Peer as p #A3E4D7
+participant RemoteCmdHandler as rh #FAD7A0
+participant ScanHandler as sh #FAD7A0
+participant FileHandler as fh #FAD7A0
+participant UpdateHandler as uh #FAD7A0
+participant Registry as reg #D5D8DC
+participant CommandFactory as cf #D5D8DC
+
+c -> eb: submit(ScanCmd)
+eb -> rh: processCmd(ScanCmd)
+activate rh
+rh -> reg: findPeer(PeerType type, String peerId)
+activate reg
+reg -[#0000FF]> rh: Peer
+deactivate reg
+rh -> cf: serialize(cmd)
+activate cf
+cf -[#0000FF]> rh: String
+deactivate cf
+rh -> net: sendCommand(String cmd)
+deactivate rh
+
+newpage
+
+net -> p: receiveCmd(String cmd)
+activate p
+p -> cf: deserialize(String cmd)
+activate cf
+cf -[#0000FF]> p: Command
+deactivate cf
+p -> eb: submit(Command cmd)
+deactivate p
+
+eb -> sh: processCmd(ScanCmd)
+activate sh
+sh -> sh: createFileCmd(ScanCmd cmd, File file)
+activate sh
+sh -[#0000FF]> sh: FileCmd
+deactivate sh
+sh -> eb: submit(FileCmd)
+deactivate sh
+
+eb -> fh: progressCmd(cmd)
+activate fh
+fh -> fh: doHashes(Hash[] hashes)
+activate fh
+deactivate fh
+fh -> fh: createUpdateCmd(FileCmd)
+activate fh
+fh -[#0000FF]> fh: UpdateCmd
+deactivate fh
+fh -> eb: submit(UpdateCmd)
+deactivate fh
+
+eb -> uh: processCmd(cmd)
+activate uh
+uh -> reg: findPeer(PeerType type)
+activate reg
+reg -[#0000FF]> uh: Peer
+deactivate reg
+uh -> cf: serialize(cmd)
+activate cf
+cf -[#0000FF]> uh: String
+deactivate cf
+uh -> net: sendCommand(String cmd)
+deactivate uh
+
+@enduml

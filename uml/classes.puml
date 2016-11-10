@@ -1,0 +1,52 @@
+@startuml
+
+interface Peer {
+    String id()
+    long port()
+    PeerType type()
+}
+
+Controller <|- Peer
+Agent <|- Peer
+Updater <|- Peer
+
+interface Command
+
+PingCmd <|-- Command
+PongCmd <|-- Command
+ReScanCmd <|-- Command
+HashCmd <|-- Command
+SaveCmd <|-- Command
+
+ScanCmd <|-- Command
+class ScanCmd {
+    private String path
+    private int[] hashes
+}
+FileCmd <|-- Command
+class FileCmd {
+    private String path
+    private String name
+    private Long size
+    private Hash[] hashes
+}
+
+class CommandFactory {
+    Command parseCommand(String cmd)
+}
+
+EventBus : void register(Handler handler)
+EventBus : void submit(Object obj)
+EventBusImpl <|-- EventBus
+
+interface Handler
+Handler : boolean canHandle(Object obj)
+Handler : void process(Object obj)
+
+enum PeerType {
+UPDATER
+CONTROLLER
+AGENT
+}
+
+@enduml
