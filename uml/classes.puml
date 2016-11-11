@@ -15,20 +15,24 @@ interface Command
 PingCmd <|-- Command
 PongCmd <|-- Command
 ReScanCmd <|-- Command
-HashCmd <|-- Command
-SaveCmd <|-- Command
 
 ScanCmd <|-- Command
 class ScanCmd {
-    private String path
-    private int[] hashes
+    - String path
+    - int[] hashes
 }
 FileCmd <|-- Command
 class FileCmd {
-    private String path
-    private String name
-    private Long size
-    private Hash[] hashes
+    - String path
+    - String name
+    - Long size
+    - Hash[] hashes
+}
+
+UpdateCmd <|-- Command
+class UpdateCmd {
+    - FileCmd file
+    + Update asModel()
 }
 
 class CommandFactory {

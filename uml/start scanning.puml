@@ -4,12 +4,14 @@ participant Network as net #D5D8DC
 participant EventBus as eb #7FB3D5
 participant Controller as c #A3E4D7
 participant Peer as p #A3E4D7
+participant Updater as u #A3E4D7
 participant RemoteCmdHandler as rh #FAD7A0
 participant ScanHandler as sh #FAD7A0
 participant FileHandler as fh #FAD7A0
 participant UpdateHandler as uh #FAD7A0
 participant Registry as reg #D5D8DC
 participant CommandFactory as cf #D5D8DC
+participant ESDao as esd #FAD7A0
 
 c -> eb: submit(ScanCmd)
 eb -> rh: processCmd(ScanCmd)
@@ -69,5 +71,17 @@ cf -[#0000FF]> uh: String
 deactivate cf
 uh -> net: sendCommand(String cmd)
 deactivate uh
+
+newpage
+alt need to think about this more
+net -> u: receiveCmd(String cmd)
+activate u
+u -> cf: deserialize(String cmd)
+activate cf
+cf -[#0000FF]> u: Command
+deactivate cf
+u -> esd : persist(cmd.asModel())
+deactivate u
+end alt
 
 @enduml
