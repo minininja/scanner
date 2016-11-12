@@ -1,0 +1,46 @@
+@startuml
+participant Node as n
+participant Network as net
+participant ReceivingThread as rt
+participant Beason as b
+participant CommandFactory as cf
+participant EventBus as eb
+participant BeaconHandler as bh
+participant Registry as r
+participant RemotePeer as rp
+
+alt beacon receiving and conversion
+net -> n : beacon as byte[]
+activate n
+n -> b : valueOf(byte[])
+activate b
+b -> n : Beacon
+deactivate b
+n -> cf : command(Beacon b)
+activate cf
+cf -> n : Command
+deactivate cf
+n -> eb : Command
+deactivate n
+end alt
+
+newpage
+
+alt once we have the beacon we hook up and find out what the peer is
+eb -> bh: BeaconCommand
+activate bh
+bh -> r : addPeear(Beacon beacon)
+activate r
+r -> r : setupConnection(Beacon beacon)
+activate r
+r -> Set : add(new RemotePeer(Socket, Beacon)
+deactivate r
+r -> rp : sendCommand(new TypeCommand)
+activate rp
+rp -> net : byte[]
+deactivate rp
+deactivate r
+deactivate bh
+end alt
+
+@enduml
