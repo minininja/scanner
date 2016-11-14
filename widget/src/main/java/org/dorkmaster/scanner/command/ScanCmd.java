@@ -19,4 +19,9 @@ public class ScanCmd implements Command {
         return sizes;
     }
 
+    @Override
+    public String name() {
+        return "scan";
+    }
+
 }

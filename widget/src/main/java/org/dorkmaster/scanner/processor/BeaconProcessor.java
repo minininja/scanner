@@ -2,9 +2,6 @@ package org.dorkmaster.scanner.processor;
 
 import org.dorkmaster.discovery.event.BeaconEvent;
 
-/**
- * Created by mjackson on 11/7/2016.
- */
 public class BeaconProcessor implements Processor {
 
     @Override

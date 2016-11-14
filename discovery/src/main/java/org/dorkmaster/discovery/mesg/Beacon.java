@@ -5,9 +5,6 @@ import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.UUID;
 
-/**
- * Created by mjackson on 10/16/2016.
- */
 public class Beacon {
     private static final byte[] PROTOCOL = "MDP".getBytes();
     private static final byte VERSION = new Integer(1).byteValue();

@@ -25,4 +25,10 @@ public class HashCmd implements Command {
         this.hash = hash;
         return this;
     }
+
+    @Override
+    public String name() {
+        return "hash";
+    }
+
 }

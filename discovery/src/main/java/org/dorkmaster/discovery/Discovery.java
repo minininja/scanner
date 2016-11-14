@@ -20,9 +20,6 @@ import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
 
-/**
- * Created by mjackson on 10/16/2016.
- */
 public class Discovery {
     public static final int DISCOVERY_PORT = 5555;
     private static final int DELAY = 1 * 1000;

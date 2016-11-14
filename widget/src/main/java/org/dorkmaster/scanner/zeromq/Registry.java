@@ -9,9 +9,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by mjackson on 11/9/16.
- */
 public class Registry {
     private Map<PeerType, Collection<Peer>> peers = new HashMap<>();
 

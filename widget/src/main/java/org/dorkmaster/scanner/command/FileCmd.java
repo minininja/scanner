@@ -44,4 +44,10 @@ public class FileCmd implements Command {
         hashes.add(hash);
         return this;
     }
+
+    @Override
+    public String name() {
+        return "file";
+    }
+
 }

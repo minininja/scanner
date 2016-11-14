@@ -3,9 +3,6 @@ package org.dorkmaster.discovery.event;
 import java.net.InetAddress;
 import java.util.UUID;
 
-/**
- * Created by mjackson on 10/18/2016.
- */
 public class DiscoveryEvent {
     InetAddress address;
     UUID uuid;

@@ -3,9 +3,6 @@ package org.dorkmaster.discovery.event;
 import com.google.common.eventbus.Subscribe;
 import org.dorkmaster.discovery.mesg.Beacon;
 
-/**
- * Created by mjackson on 10/18/2016.
- */
 public class BeaconEvent {
     private Beacon beacon;
 

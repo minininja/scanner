@@ -23,4 +23,9 @@ public class RescanCmd implements Command {
         return sizes;
     }
 
+    @Override
+    public String name() {
+        return "rescan";
+    }
+
 }

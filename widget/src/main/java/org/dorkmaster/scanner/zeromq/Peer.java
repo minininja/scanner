@@ -1,8 +1,5 @@
 package org.dorkmaster.scanner.zeromq;
 
-/**
- * Created by mjackson on 11/9/16.
- */
 public class Peer {
     private String uuid;
     private PeerType type;

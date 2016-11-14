@@ -11,4 +11,9 @@ public class SaveCmd implements Command {
         this.file = file;
         return this;
     }
+
+    @Override
+    public String name() {
+        return "save";
+    }
 }
